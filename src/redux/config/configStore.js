@@ -1,10 +1,14 @@
-import { combineReducers, createStore } from "redux";
-import letters from "../modules/letters";
-import member from "../modules/member";
-import { devToolsEnhancer } from "redux-devtools-extension";
+import letters from "../modules/letterSlice";
+import member from "../modules/memberSlice";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
 
-const rootReducer = combineReducers({ letters, member });
+const rootReducer = combineReducers({
+  letters,
+  member,
+});
 
-const store = createStore(rootReducer, devToolsEnhancer());
+const store = configureStore({
+  reducer: rootReducer,
+});
 
 export default store;

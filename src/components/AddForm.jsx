@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { v4 as uuid } from "uuid";
 import Button from "./common/Button";
 import { useDispatch } from "react-redux";
-import { addLetter } from "../redux/modules/letters";
+import { addLetter } from "../redux/modules/letterSlice";
 
 export default function AddForm() {
   const dispath = useDispatch();
@@ -21,7 +21,7 @@ export default function AddForm() {
       content,
       avatar: null,
       writedTo: member,
-      createdAt: new Date(),
+      createdAt: new Date().toString(),
     };
 
     dispath(addLetter(newLetter));
