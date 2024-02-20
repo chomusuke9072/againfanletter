@@ -2,8 +2,8 @@ import Button from "components/common/Button";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/modules/authSlice";
-
 import styled from "styled-components";
+import axios from "axios";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -20,15 +20,42 @@ export default function Login() {
     setFormState((prev) => ({ ...prev, [name]: value }));
   };
 
-  const onSubmitHandler = (e) => {
+  const onSubmitHandler = async (e) => {
     e.preventDefault();
     if (isLoginMode) {
-      dispatch(login());
-      alert("로그인 성공");
+      try {
+        const { data } = await axios.post(
+          "https://moneyfulpublicpolicy.co.kr/login",
+          {
+            id,
+            password,
+          }
+        );
+        if (data.success) {
+          dispatch(login(data.accessToken));
+          alert("로그인 성공");
+        }
+      } catch (err) {
+        console.log("err:", err);
+      }
     } else {
-      setIsLoginMode(true);
-      setFormState(initialState);
-      alert("회원가입 성공");
+      try {
+        const { data } = await axios.post(
+          "https://moneyfulpublicpolicy.co.kr/register",
+          {
+            id,
+            password,
+            nickname,
+          }
+        );
+        if (data.success) {
+          setIsLoginMode(true);
+          setFormState(initialState);
+          alert("회원가입 성공");
+        }
+      } catch (err) {
+        console.log("err:", err);
+      }
     }
   };
 
