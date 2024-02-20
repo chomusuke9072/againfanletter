@@ -38,6 +38,7 @@ const Tap = styled.li`
   text-align: center;
   padding: 0.8rem 0.5rem;
   border-radius: 0.5rem;
+  user-select: none;
 
   ${(props) => {
     if (props.$activeMember === props.children) {

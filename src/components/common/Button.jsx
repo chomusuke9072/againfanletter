@@ -17,6 +17,7 @@ const BtnWrapper = styled.div`
     color: white;
     font-size: 1rem;
     cursor: pointer;
+    user-select: none;
 
     ${(props) => {
       if (props.size === "large") {
