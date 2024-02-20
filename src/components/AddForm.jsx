@@ -2,12 +2,12 @@ import { useState } from "react";
 import styled from "styled-components";
 import { v4 as uuid } from "uuid";
 import Button from "./common/Button";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addLetter } from "../redux/modules/letterSlice";
 
 export default function AddForm() {
   const dispath = useDispatch();
-  const [nickname, setNickname] = useState("");
+  const { avatar, nickname } = useSelector((state) => state.auth);
   const [content, setContent] = useState("");
   const [member, setMember] = useState("Kiin");
 
@@ -19,25 +19,19 @@ export default function AddForm() {
       id: uuid(),
       nickname,
       content,
-      avatar: null,
+      avatar,
       writedTo: member,
       createdAt: new Date().toString(),
     };
 
     dispath(addLetter(newLetter));
-    setNickname("");
     setContent("");
   };
   return (
     <Form onSubmit={onAddLetter}>
       <InputWrapper>
         <label>닉네임:</label>
-        <input
-          onChange={(e) => setNickname(e.target.value)}
-          value={nickname}
-          placeholder="최대 20글자까지 작성할 수 있습니다."
-          maxLength={20}
-        />
+        <p>{nickname}</p>
       </InputWrapper>
       <InputWrapper>
         <label>내용:</label>
@@ -89,9 +83,13 @@ const InputWrapper = styled.div`
     width: 100%;
     padding: 0.5rem;
   }
-  textarea {
+  & textarea {
     resize: none;
     height: 5rem;
+  }
+  & p {
+    color: #464646;
+    width: 90%;
   }
 `;
 
